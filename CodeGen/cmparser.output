@@ -1,0 +1,1690 @@
+Terminals unused in grammar
+
+   TOK_ERROR
+   TOK_SUB
+
+
+Grammar
+
+    0 $accept: Start $end
+
+    1 Start: Declarations
+
+    2 Declarations: Functions
+    3             | Var_Declaration Declarations
+
+    4 Functions: Fun_Declaration
+    5          | Fun_Declaration Functions
+
+    6 Var_Declaration: Type_Specifier TOK_ID TOK_SEMI
+    7                | Type_Specifier TOK_ID TOK_LSQ TOK_NUM TOK_RSQ TOK_SEMI
+
+    8 @1: %empty
+
+    9 $@2: %empty
+
+   10 Fun_Declaration: Type_Specifier TOK_ID TOK_LPAREN @1 Params TOK_RPAREN $@2 Compound_Stmt
+
+   11 Params: Param_List
+   12       | TOK_VOID
+
+   13 Param_List: Param_List TOK_COMMA Param
+   14           | Param
+
+   15 Param: Type_Specifier TOK_ID
+   16      | Type_Specifier TOK_ID TOK_LSQ TOK_RSQ
+
+   17 Type_Specifier: TOK_INT
+   18               | TOK_VOID
+
+   19 @3: %empty
+
+   20 $@4: %empty
+
+   21 Compound_Stmt: TOK_LBRACE @3 Statements $@4 TOK_RBRACE
+
+   22 @5: %empty
+
+   23 $@6: %empty
+
+   24 Compound_Stmt: TOK_LBRACE @5 Local_Declarations Statements $@6 TOK_RBRACE
+
+   25 Local_Declarations: Var_Declaration Local_Declarations
+   26                   | Var_Declaration
+
+   27 Statements: Statement Statements
+   28           | %empty
+
+   29 Statement: Expr_Statement
+   30          | Compound_Stmt
+   31          | Selection_Stmt
+   32          | Iteration_Stmt
+   33          | Return_Stmt
+
+   34 Expr_Statement: Expression TOK_SEMI
+   35               | TOK_SEMI
+
+   36 Selection_Stmt: If_Else_Statement
+   37               | If_Else_Statement TOK_ELSE Statement
+
+   38 @7: %empty
+
+   39 If_Else_Statement: TOK_IF TOK_LPAREN Expression @7 TOK_RPAREN Statement
+
+   40 @8: %empty
+
+   41 Iteration_Stmt: TOK_WHILE TOK_LPAREN Expression @8 TOK_RPAREN Statement
+
+   42 Return_Stmt: TOK_RETURN Expression TOK_SEMI
+   43            | TOK_RETURN TOK_SEMI
+
+   44 @9: %empty
+
+   45 Expression: Var TOK_ASSIGN @9 Expression
+   46           | Simple_Expression
+
+   47 Var: TOK_ID
+   48    | TOK_ID TOK_LSQ Expression TOK_RSQ
+
+   49 @10: %empty
+
+   50 Simple_Expression: Additive_Expression TOK_GT @10 Additive_Expression
+
+   51 @11: %empty
+
+   52 Simple_Expression: Additive_Expression TOK_LT @11 Additive_Expression
+
+   53 @12: %empty
+
+   54 Simple_Expression: Additive_Expression TOK_GE @12 Additive_Expression
+
+   55 @13: %empty
+
+   56 Simple_Expression: Additive_Expression TOK_LE @13 Additive_Expression
+
+   57 @14: %empty
+
+   58 Simple_Expression: Additive_Expression TOK_EQ @14 Additive_Expression
+
+   59 @15: %empty
+
+   60 Simple_Expression: Additive_Expression TOK_NE @15 Additive_Expression
+   61                  | Additive_Expression
+
+   62 @16: %empty
+
+   63 Additive_Expression: Additive_Expression TOK_PLUS @16 Term
+
+   64 @17: %empty
+
+   65 Additive_Expression: Additive_Expression TOK_MINUS @17 Term
+   66                    | Term
+
+   67 @18: %empty
+
+   68 Term: Term TOK_MULT @18 Factor
+
+   69 @19: %empty
+
+   70 Term: Term TOK_DIV @19 Factor
+   71     | Factor
+
+   72 Factor: TOK_LPAREN Expression TOK_RPAREN
+   73       | Var
+   74       | Call
+   75       | TOK_NUM
+
+   76 Call: TOK_ID TOK_LPAREN Args TOK_RPAREN
+
+   77 Args: Args_List
+   78     | %empty
+
+   79 Args_List: Args_List TOK_COMMA Expression
+   80          | Expression
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+TOK_ELSE (258) 37
+TOK_IF (259) 39
+TOK_RETURN (260) 42 43
+TOK_VOID (261) 12 18
+TOK_INT (262) 17
+TOK_WHILE (263) 41
+TOK_PLUS (264) 63
+TOK_MINUS (265) 65
+TOK_MULT (266) 68
+TOK_DIV (267) 70
+TOK_LT (268) 52
+TOK_LE (269) 56
+TOK_GT (270) 50
+TOK_GE (271) 54
+TOK_EQ (272) 58
+TOK_NE (273) 60
+TOK_ASSIGN (274) 45
+TOK_SEMI (275) 6 7 34 35 42 43
+TOK_COMMA (276) 13 79
+TOK_LPAREN (277) 10 39 41 72 76
+TOK_RPAREN (278) 10 39 41 72 76
+TOK_LSQ (279) 7 16 48
+TOK_RSQ (280) 7 16 48
+TOK_LBRACE (281) 21 24
+TOK_RBRACE (282) 21 24
+TOK_ERROR (283)
+TOK_ID (284) 6 7 10 15 16 47 48 76
+TOK_NUM (285) 7 75
+TOK_SUB (286)
+
+
+Nonterminals, with rules where they appear
+
+$accept (32)
+    on left: 0
+Start (33)
+    on left: 1, on right: 0
+Declarations (34)
+    on left: 2 3, on right: 1 3
+Functions (35)
+    on left: 4 5, on right: 2 5
+Var_Declaration (36)
+    on left: 6 7, on right: 3 25 26
+Fun_Declaration (37)
+    on left: 10, on right: 4 5
+@1 (38)
+    on left: 8, on right: 10
+$@2 (39)
+    on left: 9, on right: 10
+Params (40)
+    on left: 11 12, on right: 10
+Param_List (41)
+    on left: 13 14, on right: 11 13
+Param (42)
+    on left: 15 16, on right: 13 14
+Type_Specifier (43)
+    on left: 17 18, on right: 6 7 10 15 16
+Compound_Stmt (44)
+    on left: 21 24, on right: 10 30
+@3 (45)
+    on left: 19, on right: 21
+$@4 (46)
+    on left: 20, on right: 21
+@5 (47)
+    on left: 22, on right: 24
+$@6 (48)
+    on left: 23, on right: 24
+Local_Declarations (49)
+    on left: 25 26, on right: 24 25
+Statements (50)
+    on left: 27 28, on right: 21 24 27
+Statement (51)
+    on left: 29 30 31 32 33, on right: 27 37 39 41
+Expr_Statement (52)
+    on left: 34 35, on right: 29
+Selection_Stmt (53)
+    on left: 36 37, on right: 31
+If_Else_Statement (54)
+    on left: 39, on right: 36 37
+@7 (55)
+    on left: 38, on right: 39
+Iteration_Stmt (56)
+    on left: 41, on right: 32
+@8 (57)
+    on left: 40, on right: 41
+Return_Stmt (58)
+    on left: 42 43, on right: 33
+Expression (59)
+    on left: 45 46, on right: 34 39 41 42 45 48 72 79 80
+@9 (60)
+    on left: 44, on right: 45
+Var (61)
+    on left: 47 48, on right: 45 73
+Simple_Expression (62)
+    on left: 50 52 54 56 58 60 61, on right: 46
+@10 (63)
+    on left: 49, on right: 50
+@11 (64)
+    on left: 51, on right: 52
+@12 (65)
+    on left: 53, on right: 54
+@13 (66)
+    on left: 55, on right: 56
+@14 (67)
+    on left: 57, on right: 58
+@15 (68)
+    on left: 59, on right: 60
+Additive_Expression (69)
+    on left: 63 65 66, on right: 50 52 54 56 58 60 61 63 65
+@16 (70)
+    on left: 62, on right: 63
+@17 (71)
+    on left: 64, on right: 65
+Term (72)
+    on left: 68 70 71, on right: 63 65 66 68 70
+@18 (73)
+    on left: 67, on right: 68
+@19 (74)
+    on left: 69, on right: 70
+Factor (75)
+    on left: 72 73 74 75, on right: 68 70 71
+Call (76)
+    on left: 76, on right: 74
+Args (77)
+    on left: 77 78, on right: 76
+Args_List (78)
+    on left: 79 80, on right: 77 79
+
+
+State 0
+
+    0 $accept: . Start $end
+
+    TOK_VOID  shift, and go to state 1
+    TOK_INT   shift, and go to state 2
+
+    Start            go to state 3
+    Declarations     go to state 4
+    Functions        go to state 5
+    Var_Declaration  go to state 6
+    Fun_Declaration  go to state 7
+    Type_Specifier   go to state 8
+
+
+State 1
+
+   18 Type_Specifier: TOK_VOID .
+
+    $default  reduce using rule 18 (Type_Specifier)
+
+
+State 2
+
+   17 Type_Specifier: TOK_INT .
+
+    $default  reduce using rule 17 (Type_Specifier)
+
+
+State 3
+
+    0 $accept: Start . $end
+
+    $end  shift, and go to state 9
+
+
+State 4
+
+    1 Start: Declarations .
+
+    $default  reduce using rule 1 (Start)
+
+
+State 5
+
+    2 Declarations: Functions .
+
+    $default  reduce using rule 2 (Declarations)
+
+
+State 6
+
+    3 Declarations: Var_Declaration . Declarations
+
+    TOK_VOID  shift, and go to state 1
+    TOK_INT   shift, and go to state 2
+
+    Declarations     go to state 10
+    Functions        go to state 5
+    Var_Declaration  go to state 6
+    Fun_Declaration  go to state 7
+    Type_Specifier   go to state 8
+
+
+State 7
+
+    4 Functions: Fun_Declaration .
+    5          | Fun_Declaration . Functions
+
+    TOK_VOID  shift, and go to state 1
+    TOK_INT   shift, and go to state 2
+
+    $default  reduce using rule 4 (Functions)
+
+    Functions        go to state 11
+    Fun_Declaration  go to state 7
+    Type_Specifier   go to state 12
+
+
+State 8
+
+    6 Var_Declaration: Type_Specifier . TOK_ID TOK_SEMI
+    7                | Type_Specifier . TOK_ID TOK_LSQ TOK_NUM TOK_RSQ TOK_SEMI
+   10 Fun_Declaration: Type_Specifier . TOK_ID TOK_LPAREN @1 Params TOK_RPAREN $@2 Compound_Stmt
+
+    TOK_ID  shift, and go to state 13
+
+
+State 9
+
+    0 $accept: Start $end .
+
+    $default  accept
+
+
+State 10
+
+    3 Declarations: Var_Declaration Declarations .
+
+    $default  reduce using rule 3 (Declarations)
+
+
+State 11
+
+    5 Functions: Fun_Declaration Functions .
+
+    $default  reduce using rule 5 (Functions)
+
+
+State 12
+
+   10 Fun_Declaration: Type_Specifier . TOK_ID TOK_LPAREN @1 Params TOK_RPAREN $@2 Compound_Stmt
+
+    TOK_ID  shift, and go to state 14
+
+
+State 13
+
+    6 Var_Declaration: Type_Specifier TOK_ID . TOK_SEMI
+    7                | Type_Specifier TOK_ID . TOK_LSQ TOK_NUM TOK_RSQ TOK_SEMI
+   10 Fun_Declaration: Type_Specifier TOK_ID . TOK_LPAREN @1 Params TOK_RPAREN $@2 Compound_Stmt
+
+    TOK_SEMI    shift, and go to state 15
+    TOK_LPAREN  shift, and go to state 16
+    TOK_LSQ     shift, and go to state 17
+
+
+State 14
+
+   10 Fun_Declaration: Type_Specifier TOK_ID . TOK_LPAREN @1 Params TOK_RPAREN $@2 Compound_Stmt
+
+    TOK_LPAREN  shift, and go to state 16
+
+
+State 15
+
+    6 Var_Declaration: Type_Specifier TOK_ID TOK_SEMI .
+
+    $default  reduce using rule 6 (Var_Declaration)
+
+
+State 16
+
+   10 Fun_Declaration: Type_Specifier TOK_ID TOK_LPAREN . @1 Params TOK_RPAREN $@2 Compound_Stmt
+
+    $default  reduce using rule 8 (@1)
+
+    @1  go to state 18
+
+
+State 17
+
+    7 Var_Declaration: Type_Specifier TOK_ID TOK_LSQ . TOK_NUM TOK_RSQ TOK_SEMI
+
+    TOK_NUM  shift, and go to state 19
+
+
+State 18
+
+   10 Fun_Declaration: Type_Specifier TOK_ID TOK_LPAREN @1 . Params TOK_RPAREN $@2 Compound_Stmt
+
+    TOK_VOID  shift, and go to state 20
+    TOK_INT   shift, and go to state 2
+
+    Params          go to state 21
+    Param_List      go to state 22
+    Param           go to state 23
+    Type_Specifier  go to state 24
+
+
+State 19
+
+    7 Var_Declaration: Type_Specifier TOK_ID TOK_LSQ TOK_NUM . TOK_RSQ TOK_SEMI
+
+    TOK_RSQ  shift, and go to state 25
+
+
+State 20
+
+   12 Params: TOK_VOID .
+   18 Type_Specifier: TOK_VOID .
+
+    TOK_ID    reduce using rule 18 (Type_Specifier)
+    $default  reduce using rule 12 (Params)
+
+
+State 21
+
+   10 Fun_Declaration: Type_Specifier TOK_ID TOK_LPAREN @1 Params . TOK_RPAREN $@2 Compound_Stmt
+
+    TOK_RPAREN  shift, and go to state 26
+
+
+State 22
+
+   11 Params: Param_List .
+   13 Param_List: Param_List . TOK_COMMA Param
+
+    TOK_COMMA  shift, and go to state 27
+
+    $default  reduce using rule 11 (Params)
+
+
+State 23
+
+   14 Param_List: Param .
+
+    $default  reduce using rule 14 (Param_List)
+
+
+State 24
+
+   15 Param: Type_Specifier . TOK_ID
+   16      | Type_Specifier . TOK_ID TOK_LSQ TOK_RSQ
+
+    TOK_ID  shift, and go to state 28
+
+
+State 25
+
+    7 Var_Declaration: Type_Specifier TOK_ID TOK_LSQ TOK_NUM TOK_RSQ . TOK_SEMI
+
+    TOK_SEMI  shift, and go to state 29
+
+
+State 26
+
+   10 Fun_Declaration: Type_Specifier TOK_ID TOK_LPAREN @1 Params TOK_RPAREN . $@2 Compound_Stmt
+
+    $default  reduce using rule 9 ($@2)
+
+    $@2  go to state 30
+
+
+State 27
+
+   13 Param_List: Param_List TOK_COMMA . Param
+
+    TOK_VOID  shift, and go to state 1
+    TOK_INT   shift, and go to state 2
+
+    Param           go to state 31
+    Type_Specifier  go to state 24
+
+
+State 28
+
+   15 Param: Type_Specifier TOK_ID .
+   16      | Type_Specifier TOK_ID . TOK_LSQ TOK_RSQ
+
+    TOK_LSQ  shift, and go to state 32
+
+    $default  reduce using rule 15 (Param)
+
+
+State 29
+
+    7 Var_Declaration: Type_Specifier TOK_ID TOK_LSQ TOK_NUM TOK_RSQ TOK_SEMI .
+
+    $default  reduce using rule 7 (Var_Declaration)
+
+
+State 30
+
+   10 Fun_Declaration: Type_Specifier TOK_ID TOK_LPAREN @1 Params TOK_RPAREN $@2 . Compound_Stmt
+
+    TOK_LBRACE  shift, and go to state 33
+
+    Compound_Stmt  go to state 34
+
+
+State 31
+
+   13 Param_List: Param_List TOK_COMMA Param .
+
+    $default  reduce using rule 13 (Param_List)
+
+
+State 32
+
+   16 Param: Type_Specifier TOK_ID TOK_LSQ . TOK_RSQ
+
+    TOK_RSQ  shift, and go to state 35
+
+
+State 33
+
+   21 Compound_Stmt: TOK_LBRACE . @3 Statements $@4 TOK_RBRACE
+   24              | TOK_LBRACE . @5 Local_Declarations Statements $@6 TOK_RBRACE
+
+    TOK_VOID  reduce using rule 22 (@5)
+    TOK_INT   reduce using rule 22 (@5)
+    $default  reduce using rule 19 (@3)
+
+    @3  go to state 36
+    @5  go to state 37
+
+
+State 34
+
+   10 Fun_Declaration: Type_Specifier TOK_ID TOK_LPAREN @1 Params TOK_RPAREN $@2 Compound_Stmt .
+
+    $default  reduce using rule 10 (Fun_Declaration)
+
+
+State 35
+
+   16 Param: Type_Specifier TOK_ID TOK_LSQ TOK_RSQ .
+
+    $default  reduce using rule 16 (Param)
+
+
+State 36
+
+   21 Compound_Stmt: TOK_LBRACE @3 . Statements $@4 TOK_RBRACE
+
+    TOK_IF      shift, and go to state 38
+    TOK_RETURN  shift, and go to state 39
+    TOK_WHILE   shift, and go to state 40
+    TOK_SEMI    shift, and go to state 41
+    TOK_LPAREN  shift, and go to state 42
+    TOK_LBRACE  shift, and go to state 33
+    TOK_ID      shift, and go to state 43
+    TOK_NUM     shift, and go to state 44
+
+    $default  reduce using rule 28 (Statements)
+
+    Compound_Stmt        go to state 45
+    Statements           go to state 46
+    Statement            go to state 47
+    Expr_Statement       go to state 48
+    Selection_Stmt       go to state 49
+    If_Else_Statement    go to state 50
+    Iteration_Stmt       go to state 51
+    Return_Stmt          go to state 52
+    Expression           go to state 53
+    Var                  go to state 54
+    Simple_Expression    go to state 55
+    Additive_Expression  go to state 56
+    Term                 go to state 57
+    Factor               go to state 58
+    Call                 go to state 59
+
+
+State 37
+
+   24 Compound_Stmt: TOK_LBRACE @5 . Local_Declarations Statements $@6 TOK_RBRACE
+
+    TOK_VOID  shift, and go to state 1
+    TOK_INT   shift, and go to state 2
+
+    Var_Declaration     go to state 60
+    Type_Specifier      go to state 61
+    Local_Declarations  go to state 62
+
+
+State 38
+
+   39 If_Else_Statement: TOK_IF . TOK_LPAREN Expression @7 TOK_RPAREN Statement
+
+    TOK_LPAREN  shift, and go to state 63
+
+
+State 39
+
+   42 Return_Stmt: TOK_RETURN . Expression TOK_SEMI
+   43            | TOK_RETURN . TOK_SEMI
+
+    TOK_SEMI    shift, and go to state 64
+    TOK_LPAREN  shift, and go to state 42
+    TOK_ID      shift, and go to state 43
+    TOK_NUM     shift, and go to state 44
+
+    Expression           go to state 65
+    Var                  go to state 54
+    Simple_Expression    go to state 55
+    Additive_Expression  go to state 56
+    Term                 go to state 57
+    Factor               go to state 58
+    Call                 go to state 59
+
+
+State 40
+
+   41 Iteration_Stmt: TOK_WHILE . TOK_LPAREN Expression @8 TOK_RPAREN Statement
+
+    TOK_LPAREN  shift, and go to state 66
+
+
+State 41
+
+   35 Expr_Statement: TOK_SEMI .
+
+    $default  reduce using rule 35 (Expr_Statement)
+
+
+State 42
+
+   72 Factor: TOK_LPAREN . Expression TOK_RPAREN
+
+    TOK_LPAREN  shift, and go to state 42
+    TOK_ID      shift, and go to state 43
+    TOK_NUM     shift, and go to state 44
+
+    Expression           go to state 67
+    Var                  go to state 54
+    Simple_Expression    go to state 55
+    Additive_Expression  go to state 56
+    Term                 go to state 57
+    Factor               go to state 58
+    Call                 go to state 59
+
+
+State 43
+
+   47 Var: TOK_ID .
+   48    | TOK_ID . TOK_LSQ Expression TOK_RSQ
+   76 Call: TOK_ID . TOK_LPAREN Args TOK_RPAREN
+
+    TOK_LPAREN  shift, and go to state 68
+    TOK_LSQ     shift, and go to state 69
+
+    $default  reduce using rule 47 (Var)
+
+
+State 44
+
+   75 Factor: TOK_NUM .
+
+    $default  reduce using rule 75 (Factor)
+
+
+State 45
+
+   30 Statement: Compound_Stmt .
+
+    $default  reduce using rule 30 (Statement)
+
+
+State 46
+
+   21 Compound_Stmt: TOK_LBRACE @3 Statements . $@4 TOK_RBRACE
+
+    $default  reduce using rule 20 ($@4)
+
+    $@4  go to state 70
+
+
+State 47
+
+   27 Statements: Statement . Statements
+
+    TOK_IF      shift, and go to state 38
+    TOK_RETURN  shift, and go to state 39
+    TOK_WHILE   shift, and go to state 40
+    TOK_SEMI    shift, and go to state 41
+    TOK_LPAREN  shift, and go to state 42
+    TOK_LBRACE  shift, and go to state 33
+    TOK_ID      shift, and go to state 43
+    TOK_NUM     shift, and go to state 44
+
+    $default  reduce using rule 28 (Statements)
+
+    Compound_Stmt        go to state 45
+    Statements           go to state 71
+    Statement            go to state 47
+    Expr_Statement       go to state 48
+    Selection_Stmt       go to state 49
+    If_Else_Statement    go to state 50
+    Iteration_Stmt       go to state 51
+    Return_Stmt          go to state 52
+    Expression           go to state 53
+    Var                  go to state 54
+    Simple_Expression    go to state 55
+    Additive_Expression  go to state 56
+    Term                 go to state 57
+    Factor               go to state 58
+    Call                 go to state 59
+
+
+State 48
+
+   29 Statement: Expr_Statement .
+
+    $default  reduce using rule 29 (Statement)
+
+
+State 49
+
+   31 Statement: Selection_Stmt .
+
+    $default  reduce using rule 31 (Statement)
+
+
+State 50
+
+   36 Selection_Stmt: If_Else_Statement .
+   37               | If_Else_Statement . TOK_ELSE Statement
+
+    TOK_ELSE  shift, and go to state 72
+
+    $default  reduce using rule 36 (Selection_Stmt)
+
+
+State 51
+
+   32 Statement: Iteration_Stmt .
+
+    $default  reduce using rule 32 (Statement)
+
+
+State 52
+
+   33 Statement: Return_Stmt .
+
+    $default  reduce using rule 33 (Statement)
+
+
+State 53
+
+   34 Expr_Statement: Expression . TOK_SEMI
+
+    TOK_SEMI  shift, and go to state 73
+
+
+State 54
+
+   45 Expression: Var . TOK_ASSIGN @9 Expression
+   73 Factor: Var .
+
+    TOK_ASSIGN  shift, and go to state 74
+
+    $default  reduce using rule 73 (Factor)
+
+
+State 55
+
+   46 Expression: Simple_Expression .
+
+    $default  reduce using rule 46 (Expression)
+
+
+State 56
+
+   50 Simple_Expression: Additive_Expression . TOK_GT @10 Additive_Expression
+   52                  | Additive_Expression . TOK_LT @11 Additive_Expression
+   54                  | Additive_Expression . TOK_GE @12 Additive_Expression
+   56                  | Additive_Expression . TOK_LE @13 Additive_Expression
+   58                  | Additive_Expression . TOK_EQ @14 Additive_Expression
+   60                  | Additive_Expression . TOK_NE @15 Additive_Expression
+   61                  | Additive_Expression .
+   63 Additive_Expression: Additive_Expression . TOK_PLUS @16 Term
+   65                    | Additive_Expression . TOK_MINUS @17 Term
+
+    TOK_PLUS   shift, and go to state 75
+    TOK_MINUS  shift, and go to state 76
+    TOK_LT     shift, and go to state 77
+    TOK_LE     shift, and go to state 78
+    TOK_GT     shift, and go to state 79
+    TOK_GE     shift, and go to state 80
+    TOK_EQ     shift, and go to state 81
+    TOK_NE     shift, and go to state 82
+
+    $default  reduce using rule 61 (Simple_Expression)
+
+
+State 57
+
+   66 Additive_Expression: Term .
+   68 Term: Term . TOK_MULT @18 Factor
+   70     | Term . TOK_DIV @19 Factor
+
+    TOK_MULT  shift, and go to state 83
+    TOK_DIV   shift, and go to state 84
+
+    $default  reduce using rule 66 (Additive_Expression)
+
+
+State 58
+
+   71 Term: Factor .
+
+    $default  reduce using rule 71 (Term)
+
+
+State 59
+
+   74 Factor: Call .
+
+    $default  reduce using rule 74 (Factor)
+
+
+State 60
+
+   25 Local_Declarations: Var_Declaration . Local_Declarations
+   26                   | Var_Declaration .
+
+    TOK_VOID  shift, and go to state 1
+    TOK_INT   shift, and go to state 2
+
+    $default  reduce using rule 26 (Local_Declarations)
+
+    Var_Declaration     go to state 60
+    Type_Specifier      go to state 61
+    Local_Declarations  go to state 85
+
+
+State 61
+
+    6 Var_Declaration: Type_Specifier . TOK_ID TOK_SEMI
+    7                | Type_Specifier . TOK_ID TOK_LSQ TOK_NUM TOK_RSQ TOK_SEMI
+
+    TOK_ID  shift, and go to state 86
+
+
+State 62
+
+   24 Compound_Stmt: TOK_LBRACE @5 Local_Declarations . Statements $@6 TOK_RBRACE
+
+    TOK_IF      shift, and go to state 38
+    TOK_RETURN  shift, and go to state 39
+    TOK_WHILE   shift, and go to state 40
+    TOK_SEMI    shift, and go to state 41
+    TOK_LPAREN  shift, and go to state 42
+    TOK_LBRACE  shift, and go to state 33
+    TOK_ID      shift, and go to state 43
+    TOK_NUM     shift, and go to state 44
+
+    $default  reduce using rule 28 (Statements)
+
+    Compound_Stmt        go to state 45
+    Statements           go to state 87
+    Statement            go to state 47
+    Expr_Statement       go to state 48
+    Selection_Stmt       go to state 49
+    If_Else_Statement    go to state 50
+    Iteration_Stmt       go to state 51
+    Return_Stmt          go to state 52
+    Expression           go to state 53
+    Var                  go to state 54
+    Simple_Expression    go to state 55
+    Additive_Expression  go to state 56
+    Term                 go to state 57
+    Factor               go to state 58
+    Call                 go to state 59
+
+
+State 63
+
+   39 If_Else_Statement: TOK_IF TOK_LPAREN . Expression @7 TOK_RPAREN Statement
+
+    TOK_LPAREN  shift, and go to state 42
+    TOK_ID      shift, and go to state 43
+    TOK_NUM     shift, and go to state 44
+
+    Expression           go to state 88
+    Var                  go to state 54
+    Simple_Expression    go to state 55
+    Additive_Expression  go to state 56
+    Term                 go to state 57
+    Factor               go to state 58
+    Call                 go to state 59
+
+
+State 64
+
+   43 Return_Stmt: TOK_RETURN TOK_SEMI .
+
+    $default  reduce using rule 43 (Return_Stmt)
+
+
+State 65
+
+   42 Return_Stmt: TOK_RETURN Expression . TOK_SEMI
+
+    TOK_SEMI  shift, and go to state 89
+
+
+State 66
+
+   41 Iteration_Stmt: TOK_WHILE TOK_LPAREN . Expression @8 TOK_RPAREN Statement
+
+    TOK_LPAREN  shift, and go to state 42
+    TOK_ID      shift, and go to state 43
+    TOK_NUM     shift, and go to state 44
+
+    Expression           go to state 90
+    Var                  go to state 54
+    Simple_Expression    go to state 55
+    Additive_Expression  go to state 56
+    Term                 go to state 57
+    Factor               go to state 58
+    Call                 go to state 59
+
+
+State 67
+
+   72 Factor: TOK_LPAREN Expression . TOK_RPAREN
+
+    TOK_RPAREN  shift, and go to state 91
+
+
+State 68
+
+   76 Call: TOK_ID TOK_LPAREN . Args TOK_RPAREN
+
+    TOK_LPAREN  shift, and go to state 42
+    TOK_ID      shift, and go to state 43
+    TOK_NUM     shift, and go to state 44
+
+    $default  reduce using rule 78 (Args)
+
+    Expression           go to state 92
+    Var                  go to state 54
+    Simple_Expression    go to state 55
+    Additive_Expression  go to state 56
+    Term                 go to state 57
+    Factor               go to state 58
+    Call                 go to state 59
+    Args                 go to state 93
+    Args_List            go to state 94
+
+
+State 69
+
+   48 Var: TOK_ID TOK_LSQ . Expression TOK_RSQ
+
+    TOK_LPAREN  shift, and go to state 42
+    TOK_ID      shift, and go to state 43
+    TOK_NUM     shift, and go to state 44
+
+    Expression           go to state 95
+    Var                  go to state 54
+    Simple_Expression    go to state 55
+    Additive_Expression  go to state 56
+    Term                 go to state 57
+    Factor               go to state 58
+    Call                 go to state 59
+
+
+State 70
+
+   21 Compound_Stmt: TOK_LBRACE @3 Statements $@4 . TOK_RBRACE
+
+    TOK_RBRACE  shift, and go to state 96
+
+
+State 71
+
+   27 Statements: Statement Statements .
+
+    $default  reduce using rule 27 (Statements)
+
+
+State 72
+
+   37 Selection_Stmt: If_Else_Statement TOK_ELSE . Statement
+
+    TOK_IF      shift, and go to state 38
+    TOK_RETURN  shift, and go to state 39
+    TOK_WHILE   shift, and go to state 40
+    TOK_SEMI    shift, and go to state 41
+    TOK_LPAREN  shift, and go to state 42
+    TOK_LBRACE  shift, and go to state 33
+    TOK_ID      shift, and go to state 43
+    TOK_NUM     shift, and go to state 44
+
+    Compound_Stmt        go to state 45
+    Statement            go to state 97
+    Expr_Statement       go to state 48
+    Selection_Stmt       go to state 49
+    If_Else_Statement    go to state 50
+    Iteration_Stmt       go to state 51
+    Return_Stmt          go to state 52
+    Expression           go to state 53
+    Var                  go to state 54
+    Simple_Expression    go to state 55
+    Additive_Expression  go to state 56
+    Term                 go to state 57
+    Factor               go to state 58
+    Call                 go to state 59
+
+
+State 73
+
+   34 Expr_Statement: Expression TOK_SEMI .
+
+    $default  reduce using rule 34 (Expr_Statement)
+
+
+State 74
+
+   45 Expression: Var TOK_ASSIGN . @9 Expression
+
+    $default  reduce using rule 44 (@9)
+
+    @9  go to state 98
+
+
+State 75
+
+   63 Additive_Expression: Additive_Expression TOK_PLUS . @16 Term
+
+    $default  reduce using rule 62 (@16)
+
+    @16  go to state 99
+
+
+State 76
+
+   65 Additive_Expression: Additive_Expression TOK_MINUS . @17 Term
+
+    $default  reduce using rule 64 (@17)
+
+    @17  go to state 100
+
+
+State 77
+
+   52 Simple_Expression: Additive_Expression TOK_LT . @11 Additive_Expression
+
+    $default  reduce using rule 51 (@11)
+
+    @11  go to state 101
+
+
+State 78
+
+   56 Simple_Expression: Additive_Expression TOK_LE . @13 Additive_Expression
+
+    $default  reduce using rule 55 (@13)
+
+    @13  go to state 102
+
+
+State 79
+
+   50 Simple_Expression: Additive_Expression TOK_GT . @10 Additive_Expression
+
+    $default  reduce using rule 49 (@10)
+
+    @10  go to state 103
+
+
+State 80
+
+   54 Simple_Expression: Additive_Expression TOK_GE . @12 Additive_Expression
+
+    $default  reduce using rule 53 (@12)
+
+    @12  go to state 104
+
+
+State 81
+
+   58 Simple_Expression: Additive_Expression TOK_EQ . @14 Additive_Expression
+
+    $default  reduce using rule 57 (@14)
+
+    @14  go to state 105
+
+
+State 82
+
+   60 Simple_Expression: Additive_Expression TOK_NE . @15 Additive_Expression
+
+    $default  reduce using rule 59 (@15)
+
+    @15  go to state 106
+
+
+State 83
+
+   68 Term: Term TOK_MULT . @18 Factor
+
+    $default  reduce using rule 67 (@18)
+
+    @18  go to state 107
+
+
+State 84
+
+   70 Term: Term TOK_DIV . @19 Factor
+
+    $default  reduce using rule 69 (@19)
+
+    @19  go to state 108
+
+
+State 85
+
+   25 Local_Declarations: Var_Declaration Local_Declarations .
+
+    $default  reduce using rule 25 (Local_Declarations)
+
+
+State 86
+
+    6 Var_Declaration: Type_Specifier TOK_ID . TOK_SEMI
+    7                | Type_Specifier TOK_ID . TOK_LSQ TOK_NUM TOK_RSQ TOK_SEMI
+
+    TOK_SEMI  shift, and go to state 15
+    TOK_LSQ   shift, and go to state 17
+
+
+State 87
+
+   24 Compound_Stmt: TOK_LBRACE @5 Local_Declarations Statements . $@6 TOK_RBRACE
+
+    $default  reduce using rule 23 ($@6)
+
+    $@6  go to state 109
+
+
+State 88
+
+   39 If_Else_Statement: TOK_IF TOK_LPAREN Expression . @7 TOK_RPAREN Statement
+
+    $default  reduce using rule 38 (@7)
+
+    @7  go to state 110
+
+
+State 89
+
+   42 Return_Stmt: TOK_RETURN Expression TOK_SEMI .
+
+    $default  reduce using rule 42 (Return_Stmt)
+
+
+State 90
+
+   41 Iteration_Stmt: TOK_WHILE TOK_LPAREN Expression . @8 TOK_RPAREN Statement
+
+    $default  reduce using rule 40 (@8)
+
+    @8  go to state 111
+
+
+State 91
+
+   72 Factor: TOK_LPAREN Expression TOK_RPAREN .
+
+    $default  reduce using rule 72 (Factor)
+
+
+State 92
+
+   80 Args_List: Expression .
+
+    $default  reduce using rule 80 (Args_List)
+
+
+State 93
+
+   76 Call: TOK_ID TOK_LPAREN Args . TOK_RPAREN
+
+    TOK_RPAREN  shift, and go to state 112
+
+
+State 94
+
+   77 Args: Args_List .
+   79 Args_List: Args_List . TOK_COMMA Expression
+
+    TOK_COMMA  shift, and go to state 113
+
+    $default  reduce using rule 77 (Args)
+
+
+State 95
+
+   48 Var: TOK_ID TOK_LSQ Expression . TOK_RSQ
+
+    TOK_RSQ  shift, and go to state 114
+
+
+State 96
+
+   21 Compound_Stmt: TOK_LBRACE @3 Statements $@4 TOK_RBRACE .
+
+    $default  reduce using rule 21 (Compound_Stmt)
+
+
+State 97
+
+   37 Selection_Stmt: If_Else_Statement TOK_ELSE Statement .
+
+    $default  reduce using rule 37 (Selection_Stmt)
+
+
+State 98
+
+   45 Expression: Var TOK_ASSIGN @9 . Expression
+
+    TOK_LPAREN  shift, and go to state 42
+    TOK_ID      shift, and go to state 43
+    TOK_NUM     shift, and go to state 44
+
+    Expression           go to state 115
+    Var                  go to state 54
+    Simple_Expression    go to state 55
+    Additive_Expression  go to state 56
+    Term                 go to state 57
+    Factor               go to state 58
+    Call                 go to state 59
+
+
+State 99
+
+   63 Additive_Expression: Additive_Expression TOK_PLUS @16 . Term
+
+    TOK_LPAREN  shift, and go to state 42
+    TOK_ID      shift, and go to state 43
+    TOK_NUM     shift, and go to state 44
+
+    Var     go to state 116
+    Term    go to state 117
+    Factor  go to state 58
+    Call    go to state 59
+
+
+State 100
+
+   65 Additive_Expression: Additive_Expression TOK_MINUS @17 . Term
+
+    TOK_LPAREN  shift, and go to state 42
+    TOK_ID      shift, and go to state 43
+    TOK_NUM     shift, and go to state 44
+
+    Var     go to state 116
+    Term    go to state 118
+    Factor  go to state 58
+    Call    go to state 59
+
+
+State 101
+
+   52 Simple_Expression: Additive_Expression TOK_LT @11 . Additive_Expression
+
+    TOK_LPAREN  shift, and go to state 42
+    TOK_ID      shift, and go to state 43
+    TOK_NUM     shift, and go to state 44
+
+    Var                  go to state 116
+    Additive_Expression  go to state 119
+    Term                 go to state 57
+    Factor               go to state 58
+    Call                 go to state 59
+
+
+State 102
+
+   56 Simple_Expression: Additive_Expression TOK_LE @13 . Additive_Expression
+
+    TOK_LPAREN  shift, and go to state 42
+    TOK_ID      shift, and go to state 43
+    TOK_NUM     shift, and go to state 44
+
+    Var                  go to state 116
+    Additive_Expression  go to state 120
+    Term                 go to state 57
+    Factor               go to state 58
+    Call                 go to state 59
+
+
+State 103
+
+   50 Simple_Expression: Additive_Expression TOK_GT @10 . Additive_Expression
+
+    TOK_LPAREN  shift, and go to state 42
+    TOK_ID      shift, and go to state 43
+    TOK_NUM     shift, and go to state 44
+
+    Var                  go to state 116
+    Additive_Expression  go to state 121
+    Term                 go to state 57
+    Factor               go to state 58
+    Call                 go to state 59
+
+
+State 104
+
+   54 Simple_Expression: Additive_Expression TOK_GE @12 . Additive_Expression
+
+    TOK_LPAREN  shift, and go to state 42
+    TOK_ID      shift, and go to state 43
+    TOK_NUM     shift, and go to state 44
+
+    Var                  go to state 116
+    Additive_Expression  go to state 122
+    Term                 go to state 57
+    Factor               go to state 58
+    Call                 go to state 59
+
+
+State 105
+
+   58 Simple_Expression: Additive_Expression TOK_EQ @14 . Additive_Expression
+
+    TOK_LPAREN  shift, and go to state 42
+    TOK_ID      shift, and go to state 43
+    TOK_NUM     shift, and go to state 44
+
+    Var                  go to state 116
+    Additive_Expression  go to state 123
+    Term                 go to state 57
+    Factor               go to state 58
+    Call                 go to state 59
+
+
+State 106
+
+   60 Simple_Expression: Additive_Expression TOK_NE @15 . Additive_Expression
+
+    TOK_LPAREN  shift, and go to state 42
+    TOK_ID      shift, and go to state 43
+    TOK_NUM     shift, and go to state 44
+
+    Var                  go to state 116
+    Additive_Expression  go to state 124
+    Term                 go to state 57
+    Factor               go to state 58
+    Call                 go to state 59
+
+
+State 107
+
+   68 Term: Term TOK_MULT @18 . Factor
+
+    TOK_LPAREN  shift, and go to state 42
+    TOK_ID      shift, and go to state 43
+    TOK_NUM     shift, and go to state 44
+
+    Var     go to state 116
+    Factor  go to state 125
+    Call    go to state 59
+
+
+State 108
+
+   70 Term: Term TOK_DIV @19 . Factor
+
+    TOK_LPAREN  shift, and go to state 42
+    TOK_ID      shift, and go to state 43
+    TOK_NUM     shift, and go to state 44
+
+    Var     go to state 116
+    Factor  go to state 126
+    Call    go to state 59
+
+
+State 109
+
+   24 Compound_Stmt: TOK_LBRACE @5 Local_Declarations Statements $@6 . TOK_RBRACE
+
+    TOK_RBRACE  shift, and go to state 127
+
+
+State 110
+
+   39 If_Else_Statement: TOK_IF TOK_LPAREN Expression @7 . TOK_RPAREN Statement
+
+    TOK_RPAREN  shift, and go to state 128
+
+
+State 111
+
+   41 Iteration_Stmt: TOK_WHILE TOK_LPAREN Expression @8 . TOK_RPAREN Statement
+
+    TOK_RPAREN  shift, and go to state 129
+
+
+State 112
+
+   76 Call: TOK_ID TOK_LPAREN Args TOK_RPAREN .
+
+    $default  reduce using rule 76 (Call)
+
+
+State 113
+
+   79 Args_List: Args_List TOK_COMMA . Expression
+
+    TOK_LPAREN  shift, and go to state 42
+    TOK_ID      shift, and go to state 43
+    TOK_NUM     shift, and go to state 44
+
+    Expression           go to state 130
+    Var                  go to state 54
+    Simple_Expression    go to state 55
+    Additive_Expression  go to state 56
+    Term                 go to state 57
+    Factor               go to state 58
+    Call                 go to state 59
+
+
+State 114
+
+   48 Var: TOK_ID TOK_LSQ Expression TOK_RSQ .
+
+    $default  reduce using rule 48 (Var)
+
+
+State 115
+
+   45 Expression: Var TOK_ASSIGN @9 Expression .
+
+    $default  reduce using rule 45 (Expression)
+
+
+State 116
+
+   73 Factor: Var .
+
+    $default  reduce using rule 73 (Factor)
+
+
+State 117
+
+   63 Additive_Expression: Additive_Expression TOK_PLUS @16 Term .
+   68 Term: Term . TOK_MULT @18 Factor
+   70     | Term . TOK_DIV @19 Factor
+
+    TOK_MULT  shift, and go to state 83
+    TOK_DIV   shift, and go to state 84
+
+    $default  reduce using rule 63 (Additive_Expression)
+
+
+State 118
+
+   65 Additive_Expression: Additive_Expression TOK_MINUS @17 Term .
+   68 Term: Term . TOK_MULT @18 Factor
+   70     | Term . TOK_DIV @19 Factor
+
+    TOK_MULT  shift, and go to state 83
+    TOK_DIV   shift, and go to state 84
+
+    $default  reduce using rule 65 (Additive_Expression)
+
+
+State 119
+
+   52 Simple_Expression: Additive_Expression TOK_LT @11 Additive_Expression .
+   63 Additive_Expression: Additive_Expression . TOK_PLUS @16 Term
+   65                    | Additive_Expression . TOK_MINUS @17 Term
+
+    TOK_PLUS   shift, and go to state 75
+    TOK_MINUS  shift, and go to state 76
+
+    $default  reduce using rule 52 (Simple_Expression)
+
+
+State 120
+
+   56 Simple_Expression: Additive_Expression TOK_LE @13 Additive_Expression .
+   63 Additive_Expression: Additive_Expression . TOK_PLUS @16 Term
+   65                    | Additive_Expression . TOK_MINUS @17 Term
+
+    TOK_PLUS   shift, and go to state 75
+    TOK_MINUS  shift, and go to state 76
+
+    $default  reduce using rule 56 (Simple_Expression)
+
+
+State 121
+
+   50 Simple_Expression: Additive_Expression TOK_GT @10 Additive_Expression .
+   63 Additive_Expression: Additive_Expression . TOK_PLUS @16 Term
+   65                    | Additive_Expression . TOK_MINUS @17 Term
+
+    TOK_PLUS   shift, and go to state 75
+    TOK_MINUS  shift, and go to state 76
+
+    $default  reduce using rule 50 (Simple_Expression)
+
+
+State 122
+
+   54 Simple_Expression: Additive_Expression TOK_GE @12 Additive_Expression .
+   63 Additive_Expression: Additive_Expression . TOK_PLUS @16 Term
+   65                    | Additive_Expression . TOK_MINUS @17 Term
+
+    TOK_PLUS   shift, and go to state 75
+    TOK_MINUS  shift, and go to state 76
+
+    $default  reduce using rule 54 (Simple_Expression)
+
+
+State 123
+
+   58 Simple_Expression: Additive_Expression TOK_EQ @14 Additive_Expression .
+   63 Additive_Expression: Additive_Expression . TOK_PLUS @16 Term
+   65                    | Additive_Expression . TOK_MINUS @17 Term
+
+    TOK_PLUS   shift, and go to state 75
+    TOK_MINUS  shift, and go to state 76
+
+    $default  reduce using rule 58 (Simple_Expression)
+
+
+State 124
+
+   60 Simple_Expression: Additive_Expression TOK_NE @15 Additive_Expression .
+   63 Additive_Expression: Additive_Expression . TOK_PLUS @16 Term
+   65                    | Additive_Expression . TOK_MINUS @17 Term
+
+    TOK_PLUS   shift, and go to state 75
+    TOK_MINUS  shift, and go to state 76
+
+    $default  reduce using rule 60 (Simple_Expression)
+
+
+State 125
+
+   68 Term: Term TOK_MULT @18 Factor .
+
+    $default  reduce using rule 68 (Term)
+
+
+State 126
+
+   70 Term: Term TOK_DIV @19 Factor .
+
+    $default  reduce using rule 70 (Term)
+
+
+State 127
+
+   24 Compound_Stmt: TOK_LBRACE @5 Local_Declarations Statements $@6 TOK_RBRACE .
+
+    $default  reduce using rule 24 (Compound_Stmt)
+
+
+State 128
+
+   39 If_Else_Statement: TOK_IF TOK_LPAREN Expression @7 TOK_RPAREN . Statement
+
+    TOK_IF      shift, and go to state 38
+    TOK_RETURN  shift, and go to state 39
+    TOK_WHILE   shift, and go to state 40
+    TOK_SEMI    shift, and go to state 41
+    TOK_LPAREN  shift, and go to state 42
+    TOK_LBRACE  shift, and go to state 33
+    TOK_ID      shift, and go to state 43
+    TOK_NUM     shift, and go to state 44
+
+    Compound_Stmt        go to state 45
+    Statement            go to state 131
+    Expr_Statement       go to state 48
+    Selection_Stmt       go to state 49
+    If_Else_Statement    go to state 50
+    Iteration_Stmt       go to state 51
+    Return_Stmt          go to state 52
+    Expression           go to state 53
+    Var                  go to state 54
+    Simple_Expression    go to state 55
+    Additive_Expression  go to state 56
+    Term                 go to state 57
+    Factor               go to state 58
+    Call                 go to state 59
+
+
+State 129
+
+   41 Iteration_Stmt: TOK_WHILE TOK_LPAREN Expression @8 TOK_RPAREN . Statement
+
+    TOK_IF      shift, and go to state 38
+    TOK_RETURN  shift, and go to state 39
+    TOK_WHILE   shift, and go to state 40
+    TOK_SEMI    shift, and go to state 41
+    TOK_LPAREN  shift, and go to state 42
+    TOK_LBRACE  shift, and go to state 33
+    TOK_ID      shift, and go to state 43
+    TOK_NUM     shift, and go to state 44
+
+    Compound_Stmt        go to state 45
+    Statement            go to state 132
+    Expr_Statement       go to state 48
+    Selection_Stmt       go to state 49
+    If_Else_Statement    go to state 50
+    Iteration_Stmt       go to state 51
+    Return_Stmt          go to state 52
+    Expression           go to state 53
+    Var                  go to state 54
+    Simple_Expression    go to state 55
+    Additive_Expression  go to state 56
+    Term                 go to state 57
+    Factor               go to state 58
+    Call                 go to state 59
+
+
+State 130
+
+   79 Args_List: Args_List TOK_COMMA Expression .
+
+    $default  reduce using rule 79 (Args_List)
+
+
+State 131
+
+   39 If_Else_Statement: TOK_IF TOK_LPAREN Expression @7 TOK_RPAREN Statement .
+
+    $default  reduce using rule 39 (If_Else_Statement)
+
+
+State 132
+
+   41 Iteration_Stmt: TOK_WHILE TOK_LPAREN Expression @8 TOK_RPAREN Statement .
+
+    $default  reduce using rule 41 (Iteration_Stmt)

@@ -1,0 +1,10 @@
+void emit(const char *);
+char *gen_new_label_1();
+char *gen_new_label_2();
+void code_gen_expr(AstNode *);
+void code_gen_stmt(AstNode *);
+void code_gen_method(AstNode *);
+void code_gen_binary_expr(AstNode *);
+void codegen();
+void global_vars();
+int allocate_var_space(SymbolTablePtr s, int g);

@@ -1,0 +1,59 @@
+echo "juhong ./micro/additive_expression.c " > output
+./cmparser ./micro/additive_expression.c >> output
+echo "juhong ./micro/array_arg.c " >> output
+./cmparser ./micro/array_arg.c  >> output
+echo "juhong ./micro/array.c " >> output
+./cmparser ./micro/array.c >> output
+echo "juhong ./micro/assignment_expression.c" >> output
+./cmparser ./micro/assignment_expression.c >> output
+echo "juhong ./micro/call_arg.c" >> output
+./cmparser ./micro/call_arg.c >> output
+echo "juhong ./micro/call_args.c" >> output
+./cmparser ./micro/call_args.c >> output
+echo "juhong ./micro/compound.c" >> output
+./cmparser ./micro/compound.c >> output
+echo "juhong ./micro/global.c" >> output
+./cmparser ./micro/global.c >> output
+echo "juhong ./micro/if_t.c" >> output
+./cmparser ./micro/if_t.c >> output
+echo "juhong ./micro/if_t_e.c" >> output
+./cmparser ./micro/if_t_e.c >> output
+echo "juhong ./micro/multiplicative_expression.c" >> output
+./cmparser ./micro/multiplicative_expression.c >> output
+echo "juhong ./micro/redefinition_ai.c" >> output
+./cmparser ./micro/redefinition_ai.c >> output
+echo "juhong ./micro/redefinition_g.c" >> output
+./cmparser ./micro/redefinition_g.c >> output
+echo "juhong ./micro/redefinition_gl.c" >> output
+./cmparser ./micro/redefinition_gl.c >> output
+echo "juhong ./micro/redefinition_l.c" >> output
+./cmparser ./micro/redefinition_l.c >> output
+echo "juhong ./micro/relational_expression.c" >> output
+./cmparser ./micro/relational_expression.c >> output
+echo "juhong ./micro/return.c" >> output
+./cmparser ./micro/return.c >> output
+echo "juhong ./micro/void_expression.c" >> output
+./cmparser ./micro/void_expression.c >> output
+echo "juhong ./micro/while.c" >> output
+./cmparser ./micro/while.c >> output
+echo "--------------------------------------------" >> output
+echo "juhong ./macro/all.c" >> output
+./cmparser ./macro/all.c >> output
+echo "juhong ./macro/ave.c" >> output
+./cmparser ./macro/ave.c >> output
+echo "juhong ./macro/fabonacci.c" >> output
+./cmparser ./macro/fabonacci.c >> output
+echo "juhong ./macro/gcd.c" >> output
+./cmparser ./macro/gcd.c >> output
+echo "juhong ./macro/max_min.c" >> output
+./cmparser ./macro/max_min.c >> output
+echo "juhong ./macro/odd_even.c" >> output
+./cmparser ./macro/odd_even.c >> output
+echo "juhong ./macro/reverse.c" >> output
+./cmparser ./macro/reverse.c >> output
+echo "juhong ./macro/second2hour.c" >> output
+./cmparser ./macro/second2hour.c >> output
+echo "juhong ./macro/sort.c" >> output
+./cmparser ./macro/sort.c >> output
+diff output correct_output > result
+
